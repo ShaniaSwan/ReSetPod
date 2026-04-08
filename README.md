@@ -12,7 +12,7 @@ ReSet Pod is built to enhance the travel experience by offering a private, comfo
 
 ---
 
-## ⚡ Features
+## Features
 
 * Interactive session selection (10–30 minutes)
 * Built-in countdown timer for each session
