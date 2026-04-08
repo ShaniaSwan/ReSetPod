@@ -2,218 +2,889 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ReSet Pod</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReSet Pod | Guest Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, #2f3f4a, #344550);
-      color: #F0EDE8;
+    :root{
+      --cream:#F0EDE8;
+      --orange:#D66548;
+      --sage:#8C9F79;
+      --olive:#6A7745;
+      --slate:#344550;
+      --slate-dark:#2A3740;
+      --card:rgba(255,255,255,0.08);
+      --card-2:rgba(255,255,255,0.05);
+      --border:rgba(255,255,255,0.12);
+      --shadow:0 18px 60px rgba(0,0,0,.22);
+      --radius:28px;
+      --success:#7AC78E;
+      --danger:#FF7E6B;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--cream);
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 10% 14%, rgba(140,159,121,.22), transparent 26%),
+        radial-gradient(circle at 88% 16%, rgba(214,101,72,.18), transparent 22%),
+        radial-gradient(circle at 78% 80%, rgba(106,119,69,.18), transparent 22%),
+        linear-gradient(180deg, #26323A 0%, #30414B 48%, #344550 100%);
     }
 
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+    .app{
+      max-width:1240px;
+      margin:0 auto;
+      padding:28px;
     }
 
-    .logo {
-      width: 70px;
+    .hidden{display:none !important}
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:22px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:16px;
     }
 
-    .tagline {
-      color: #ccc;
-      margin-top: 5px;
+    .brand-logo{
+      width:74px;
+      height:74px;
+      object-fit:contain;
+      padding:6px;
+      border-radius:20px;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
     }
 
-    .hero {
-      margin-top: 40px;
+    .brand h1{
+      margin:0;
+      font-size:1.2rem;
+      font-weight:800;
+      letter-spacing:-.02em;
     }
 
-    .hero h2 {
-      font-size: 40px;
-      margin-bottom: 10px;
+    .brand p{
+      margin:4px 0 0;
+      color:rgba(240,237,232,.72);
+      font-size:.94rem;
     }
 
-    .sessions {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--border);
+      font-size:.93rem;
+      font-weight:600;
     }
 
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding: 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.2s;
+    .status-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--success);
+      box-shadow:0 0 0 6px rgba(122,199,142,.12);
     }
 
-    .card:hover {
-      background: rgba(255,255,255,0.15);
+    .status-pill.busy .status-dot{
+      background:var(--danger);
+      box-shadow:0 0 0 6px rgba(255,126,107,.12);
     }
 
-    .card.active {
-      border: 2px solid #D66548;
+    .hero{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:24px;
+      margin-bottom:24px;
     }
 
-    .inside {
-      margin-top: 50px;
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
     }
 
-    .inside ul {
-      padding-left: 20px;
-      line-height: 1.8;
+    .hero-main{
+      padding:34px;
+      position:relative;
+      overflow:hidden;
     }
 
-    .countdown {
-      margin-top: 60px;
-      text-align: center;
+    .hero-main::after{
+      content:"";
+      position:absolute;
+      width:300px;
+      height:300px;
+      right:-90px;
+      top:-100px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(214,101,72,.22), transparent 62%);
+      pointer-events:none;
     }
 
-    .time {
-      font-size: 60px;
-      font-weight: 800;
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:.82rem;
+      margin-bottom:16px;
     }
 
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
+    .hero-main h2{
+      margin:0;
+      font-size:clamp(2.2rem,5vw,4rem);
+      line-height:1.02;
+      letter-spacing:-.05em;
+      max-width:10.5ch;
     }
 
-    .start { background: #8C9F79; }
-    .pause { background: #ccc; }
-    .reset { background: #D66548; color: white; }
+    .hero-main .lead{
+      margin:18px 0 0;
+      max-width:60ch;
+      color:rgba(240,237,232,.8);
+      font-size:1.03rem;
+      line-height:1.72;
+    }
 
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    button{
+      border:none;
+      cursor:pointer;
+      font:inherit;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--orange), #C75A3F);
+      color:white;
+      padding:15px 20px;
+      border-radius:18px;
+      font-weight:700;
+      box-shadow:0 10px 24px rgba(214,101,72,.22);
+    }
+
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-secondary{
+      background:rgba(255,255,255,.08);
+      color:var(--cream);
+      border:1px solid var(--border);
+      padding:15px 20px;
+      border-radius:18px;
+      font-weight:600;
+    }
+
+    .hero-side{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .info-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .info-card h3{
+      margin:0 0 8px;
+      font-size:.92rem;
+      color:rgba(240,237,232,.72);
+      font-weight:600;
+    }
+
+    .info-card .value{
+      font-size:1.9rem;
+      font-weight:800;
+      letter-spacing:-.04em;
+    }
+
+    .info-card .sub{
+      margin-top:8px;
+      color:rgba(240,237,232,.72);
+      line-height:1.6;
+      font-size:.94rem;
+    }
+
+    .grid{
+      display:grid;
+      gap:24px;
+      margin-bottom:24px;
+    }
+
+    .grid-2{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .section{
+      padding:28px;
+    }
+
+    .section h3{
+      margin:0 0 8px;
+      font-size:1.45rem;
+      letter-spacing:-.03em;
+    }
+
+    .section .intro{
+      margin:0 0 22px;
+      color:rgba(240,237,232,.72);
+      line-height:1.65;
+    }
+
+    .session-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:14px;
+    }
+
+    .session-card{
+      padding:18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      min-height:190px;
+      text-align:left;
+      color:var(--cream);
+      position:relative;
+    }
+
+    .session-card.active{
+      border-color:rgba(214,101,72,.55);
+      background:linear-gradient(180deg, rgba(214,101,72,.16), rgba(255,255,255,.05));
+      box-shadow:0 12px 30px rgba(214,101,72,.12);
+    }
+
+    .session-card:hover{transform:translateY(-2px)}
+    .session-card .mins{
+      font-size:1.8rem;
+      font-weight:800;
+      letter-spacing:-.04em;
+    }
+
+    .session-card .title{
+      margin-top:6px;
+      font-size:1rem;
+      font-weight:700;
+      line-height:1.35;
+    }
+
+    .session-card .desc{
+      margin-top:10px;
+      color:rgba(240,237,232,.74);
+      line-height:1.55;
+      font-size:.92rem;
+    }
+
+    .session-card .tag{
+      display:inline-block;
+      margin-top:14px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.08);
+      font-size:.78rem;
+      color:rgba(240,237,232,.86);
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .feature{
+      display:flex;
+      gap:12px;
+      padding:16px 18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      line-height:1.5;
+    }
+
+    .feature .icon{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background:rgba(140,159,121,.18);
+      color:var(--sage);
+      display:grid;
+      place-items:center;
+      flex:0 0 36px;
+      font-weight:800;
+    }
+
+    .checkout{
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      gap:24px;
+      margin-bottom:24px;
+    }
+
+    .summary{
+      padding:22px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:14px;
+    }
+
+    .summary h4{
+      margin:0 0 8px;
+      font-size:1.02rem;
+    }
+
+    .summary p{
+      margin:0;
+      color:rgba(240,237,232,.75);
+      line-height:1.6;
+      font-size:.95rem;
+    }
+
+    .pay-card{
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .price{
+      font-size:3rem;
+      font-weight:800;
+      letter-spacing:-.05em;
+      margin:0;
+    }
+
+    .small{
+      color:rgba(240,237,232,.66);
+      font-size:.92rem;
+    }
+
+    .payment-options{
+      display:grid;
+      gap:12px;
+      margin-top:8px;
+    }
+
+    .pay-option{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:15px 16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      cursor:pointer;
+      color:var(--cream);
+    }
+
+    .pay-option.active{
+      border-color:rgba(140,159,121,.55);
+      background:linear-gradient(180deg, rgba(140,159,121,.14), rgba(255,255,255,.05));
+    }
+
+    .pay-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .timer-layout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .timer-card{
+      padding:32px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      min-height:420px;
+    }
+
+    .timer-label{
+      color:rgba(240,237,232,.66);
+      font-size:.88rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .timer-time{
+      font-size:clamp(3rem,8vw,6rem);
+      font-weight:800;
+      letter-spacing:-.06em;
+      margin:10px 0 6px;
+    }
+
+    .timer-session{
+      font-size:1.1rem;
+      font-weight:700;
+      color:var(--sage);
+      margin-bottom:14px;
+    }
+
+    .timer-note{
+      max-width:34ch;
+      color:rgba(240,237,232,.72);
+      line-height:1.7;
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:22px;
+    }
+
+    .control{
+      padding:13px 16px;
+      border-radius:16px;
+      background:rgba(255,255,255,.08);
+      color:var(--cream);
+      border:1px solid rgba(255,255,255,.12);
+      font-weight:600;
+    }
+
+    .control.primary{
+      background:var(--sage);
+      color:#102012;
+    }
+
+    .control.warning{
+      background:var(--orange);
+      color:white;
+    }
+
+    .receipt{
+      padding:28px;
+    }
+
+    .receipt-line{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      color:rgba(240,237,232,.78);
+    }
+
+    .receipt-line strong{color:var(--cream)}
+
+    .footer{
+      margin:28px 0 8px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      color:rgba(240,237,232,.56);
+      font-size:.92rem;
+    }
+
+    @media (max-width:1100px){
+      .hero,.grid-2,.checkout,.timer-layout{grid-template-columns:1fr}
+      .session-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width:720px){
+      .app{padding:18px}
+      .topbar{flex-direction:column;align-items:flex-start}
+      .hero-main,.hero-side,.section,.pay-card,.receipt,.timer-card{padding:22px}
+      .session-grid,.features{grid-template-columns:1fr}
+      .hero-main h2{max-width:12ch}
+    }
   </style>
 </head>
-
 <body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <img src="reset_transparent.png" alt="ReSet Pod Logo" class="brand-logo">
+        <div>
+          <h1>ReSet Pod</h1>
+          <p>Rest. Reset. Rise.</p>
+        </div>
+      </div>
+      <div class="status-pill" id="statusPill">
+        <span class="status-dot"></span>
+        <span id="statusText">Pod available now</span>
+      </div>
+    </div>
 
-<div class="container">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="eyebrow">QR guest access</div>
+        <h2>Recharge at the rest stop.</h2>
+        <p class="lead">
+          Scan, review, choose a session, complete payment, and enter a premium recovery pod built for travelers who need quick restoration, privacy, and comfort.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" id="goToSessionsBtn">Choose a session</button>
+          <button class="btn-secondary" id="goToCheckoutBtn">View checkout</button>
+        </div>
+      </div>
 
-  <div class="header">
-    <img src="reset-logo.png" class="logo" />
-    <div>
-      <h1>ReSet Pod</h1>
-      <div class="tagline">Rest. Reset. Rise.</div>
+      <div class="panel hero-side">
+        <div class="info-card">
+          <h3>Location</h3>
+          <div class="value">Rest Stop</div>
+          <div class="sub">A premium wellness amenity designed for high-traffic traveler environments.</div>
+        </div>
+        <div class="info-card">
+          <h3>Session range</h3>
+          <div class="value">10–30 min</div>
+          <div class="sub">Short-form recovery options aligned to real travel schedules.</div>
+        </div>
+        <div class="info-card">
+          <h3>Guest flow</h3>
+          <div class="value">Scan → Select → Pay → Start</div>
+          <div class="sub">A professional digital experience designed for simple access and smooth pod turnover.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-2" id="sessionsSection">
+      <section class="panel section">
+        <h3>Choose your session</h3>
+        <p class="intro">
+          Select the recovery experience that matches what you need right now. The timer and checkout update automatically.
+        </p>
+        <div class="session-grid" id="sessionGrid"></div>
+      </section>
+
+      <section class="panel section">
+        <h3>What’s inside</h3>
+        <p class="intro">
+          Designed for hospitality, wellness, and trust — without unnecessary complexity.
+        </p>
+        <div class="features">
+          <div class="feature"><div class="icon">⚡</div><div><strong>Charging ports</strong><br><span style="color:rgba(240,237,232,.72)">Convenient power access for phones and devices.</span></div></div>
+          <div class="feature"><div class="icon">❄</div><div><strong>Climate-controlled environment</strong><br><span style="color:rgba(240,237,232,.72)">Comfortable conditions across every session type.</span></div></div>
+          <div class="feature"><div class="icon">◐</div><div><strong>Adjustable lighting and sound</strong><br><span style="color:rgba(240,237,232,.72)">Personalized ambiance before the session begins.</span></div></div>
+          <div class="feature"><div class="icon">💪</div><div><strong>Quick workout and resistance training</strong><br><span style="color:rgba(240,237,232,.72)">Efficient movement options for active recovery.</span></div></div>
+          <div class="feature"><div class="icon">🧘</div><div><strong>Yoga</strong><br><span style="color:rgba(240,237,232,.72)">Stretching and mobility support for physical reset.</span></div></div>
+          <div class="feature"><div class="icon">◎</div><div><strong>Meditation</strong><br><span style="color:rgba(240,237,232,.72)">Mindful breathing and calm focus sessions.</span></div></div>
+          <div class="feature"><div class="icon">🔒</div><div><strong>Privacy and security</strong><br><span style="color:rgba(240,237,232,.72)">A protected, guest-centered environment.</span></div></div>
+          <div class="feature"><div class="icon">✦</div><div><strong>UV sanitation system</strong><br><span style="color:rgba(240,237,232,.72)">Automated sanitization between sessions.</span></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="checkout" id="checkoutSection">
+      <section class="panel section">
+        <h3>Session summary</h3>
+        <p class="intro">
+          Review the selected experience before activating the pod.
+        </p>
+
+        <div class="summary">
+          <h4 id="summaryTitle">10 minutes — Perfect for power nap</h4>
+          <p id="summaryDescription">A quick recovery window designed to restore alertness and energy without disrupting the travel schedule.</p>
+        </div>
+
+        <div class="summary">
+          <h4>How access works</h4>
+          <p>
+            Guests scan the pod QR code, confirm availability, select a session, complete payment, and begin the experience immediately. Once paid, the pod is marked occupied until the countdown ends.
+          </p>
+        </div>
+
+        <div class="summary">
+          <h4>Operational note</h4>
+          <p>
+            Campus credit payment has been removed. The final session screen also removes extra lighting and sound controls to keep the live experience focused, premium, and business-ready.
+          </p>
+        </div>
+      </section>
+
+      <section class="panel pay-card">
+        <div>
+          <div class="small">Selected session</div>
+          <h2 class="price" id="priceDisplay">$8</h2>
+          <div class="small" id="priceCaption">10-minute session access</div>
+
+          <div class="payment-options" id="paymentOptions">
+            <button class="pay-option active" data-payment="Card">
+              <span>Credit / Debit Card</span>
+              <strong>Selected</strong>
+            </button>
+            <button class="pay-option" data-payment="Apple Pay">
+              <span>Apple Pay</span>
+              <strong>Tap</strong>
+            </button>
+            <button class="pay-option" data-payment="Google Pay">
+              <span>Google Pay</span>
+              <strong>Tap</strong>
+            </button>
+          </div>
+        </div>
+
+        <div class="pay-row">
+          <button class="btn-secondary" id="reviewBtn">Review timer</button>
+          <button class="btn-primary" id="payBtn">Complete payment</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="timer-layout" id="timerSection">
+      <section class="panel timer-card">
+        <div class="timer-label">Session status</div>
+        <div class="timer-time" id="timerDisplay">10:00</div>
+        <div class="timer-session" id="timerSession">Perfect for power nap</div>
+        <div class="timer-note" id="timerNote">
+          Your session begins after payment. Once active, the pod will remain occupied until the timer ends.
+        </div>
+
+        <div class="controls">
+          <button class="control primary" id="startBtn">Start session</button>
+          <button class="control" id="pauseBtn">Pause</button>
+          <button class="control warning" id="endBtn">End session</button>
+        </div>
+      </section>
+
+      <section class="panel receipt">
+        <h3 style="margin-top:0">Access details</h3>
+        <div class="receipt-line"><span>Pod status</span><strong id="receiptStatus">Available</strong></div>
+        <div class="receipt-line"><span>Selected session</span><strong id="receiptSession">10 min</strong></div>
+        <div class="receipt-line"><span>Session purpose</span><strong id="receiptPurpose">Perfect for power nap</strong></div>
+        <div class="receipt-line"><span>Payment method</span><strong id="receiptPayment">Credit / Debit Card</strong></div>
+        <div class="receipt-line"><span>Amount</span><strong id="receiptAmount">$8</strong></div>
+        <div class="receipt-line"><span>Timer state</span><strong id="receiptTimer">Ready</strong></div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <div>ReSet Pod is a premium rest stop wellness amenity designed for fast recovery, privacy, and operational simplicity.</div>
+      <div>Rest. Reset. Rise.</div>
     </div>
   </div>
 
-  <div class="hero">
-    <h2>Recharge at the Rest Stop</h2>
-    <p>Premium wellness pods for travelers — quick recovery, privacy, and comfort.</p>
-  </div>
+  <script>
+    const sessions = [
+      {
+        minutes: 10,
+        label: "Perfect for power nap",
+        description: "A quick recovery window designed to restore alertness and energy without disrupting the travel schedule.",
+        price: 8
+      },
+      {
+        minutes: 15,
+        label: "Great for mindful meditation",
+        description: "A guided pause for breath, calm, and improved focus during travel.",
+        price: 10
+      },
+      {
+        minutes: 20,
+        label: "Great for yoga",
+        description: "A mobility and stretch-focused session designed to reduce stiffness and tension.",
+        price: 12
+      },
+      {
+        minutes: 25,
+        label: "Great for resistance training workout",
+        description: "A short, efficient active session for strength, activation, and movement.",
+        price: 14
+      },
+      {
+        minutes: 30,
+        label: "Great for complete relaxation",
+        description: "A deeper reset experience designed for full-body decompression and extended recovery.",
+        price: 16
+      }
+    ];
 
-  <div class="sessions" id="sessions"></div>
+    let selectedSession = sessions[0];
+    let selectedPayment = "Credit / Debit Card";
+    let paid = false;
+    let remainingSeconds = selectedSession.minutes * 60;
+    let timer = null;
+    let podBusy = false;
 
-  <div class="inside">
-    <h2>What’s inside</h2>
-    <ul>
-      <li>Charging ports</li>
-      <li>Climate-controlled environment</li>
-      <li>Adjustable lighting and sound</li>
-      <li>Quick workout and resistance training</li>
-      <li>Yoga</li>
-      <li>Meditation</li>
-      <li>Privacy and security</li>
-      <li>UV sanitation system</li>
-    </ul>
-  </div>
+    const sessionGrid = document.getElementById("sessionGrid");
+    const summaryTitle = document.getElementById("summaryTitle");
+    const summaryDescription = document.getElementById("summaryDescription");
+    const priceDisplay = document.getElementById("priceDisplay");
+    const priceCaption = document.getElementById("priceCaption");
+    const timerDisplay = document.getElementById("timerDisplay");
+    const timerSession = document.getElementById("timerSession");
+    const timerNote = document.getElementById("timerNote");
+    const statusText = document.getElementById("statusText");
+    const statusPill = document.getElementById("statusPill");
 
-  <div class="countdown">
-    <div class="time" id="time">10:00</div>
-    <div id="label">Perfect for power nap</div>
+    const receiptStatus = document.getElementById("receiptStatus");
+    const receiptSession = document.getElementById("receiptSession");
+    const receiptPurpose = document.getElementById("receiptPurpose");
+    const receiptPayment = document.getElementById("receiptPayment");
+    const receiptAmount = document.getElementById("receiptAmount");
+    const receiptTimer = document.getElementById("receiptTimer");
 
-    <br>
-    <button class="start" onclick="start()">Start</button>
-    <button class="pause" onclick="pause()">Pause</button>
-    <button class="reset" onclick="reset()">Reset</button>
-  </div>
-
-</div>
-
-<script>
-const sessions = [
-  {min:10,label:"Perfect for power nap"},
-  {min:15,label:"Great for mindful meditation"},
-  {min:20,label:"Great for yoga"},
-  {min:25,label:"Great for resistance training workout"},
-  {min:30,label:"Great for complete relaxation"},
-];
-
-let selected = sessions[0];
-let seconds = selected.min * 60;
-let timer = null;
-
-const container = document.getElementById("sessions");
-
-function render() {
-  container.innerHTML = "";
-  sessions.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "card" + (s.min===selected.min?" active":"");
-    div.innerHTML = `<h3>${s.min} min</h3><p>${s.label}</p>`;
-    div.onclick = () => {
-      selected = s;
-      seconds = s.min*60;
-      update();
-      render();
-    };
-    container.appendChild(div);
-  });
-}
-
-function update(){
-  const m = Math.floor(seconds/60);
-  const s = seconds%60;
-  document.getElementById("time").innerText =
-    String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-  document.getElementById("label").innerText = selected.label;
-}
-
-function start(){
-  if(timer) return;
-  timer = setInterval(()=>{
-    if(seconds>0){
-      seconds--;
-      update();
+    function formatTime(totalSeconds) {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
     }
-  },1000);
-}
 
-function pause(){
-  clearInterval(timer);
-  timer=null;
-}
+    function updateStatus() {
+      if (podBusy) {
+        statusText.textContent = "Pod occupied";
+        statusPill.classList.add("busy");
+        receiptStatus.textContent = "Occupied";
+      } else {
+        statusText.textContent = "Pod available now";
+        statusPill.classList.remove("busy");
+        receiptStatus.textContent = "Available";
+      }
+    }
 
-function reset(){
-  pause();
-  seconds = selected.min*60;
-  update();
-}
+    function updateUI() {
+      summaryTitle.textContent = `${selectedSession.minutes} minutes — ${selectedSession.label}`;
+      summaryDescription.textContent = selectedSession.description;
+      priceDisplay.textContent = `$${selectedSession.price}`;
+      priceCaption.textContent = `${selectedSession.minutes}-minute session access`;
+      timerDisplay.textContent = formatTime(remainingSeconds);
+      timerSession.textContent = selectedSession.label;
+      timerNote.textContent = paid
+        ? "Payment confirmed. Your pod access is active for the selected duration."
+        : "Complete payment to activate the pod and begin the session.";
+      receiptSession.textContent = `${selectedSession.minutes} min`;
+      receiptPurpose.textContent = selectedSession.label;
+      receiptPayment.textContent = selectedPayment;
+      receiptAmount.textContent = `$${selectedSession.price}`;
+      receiptTimer.textContent = paid ? (timer ? "Running" : "Ready") : "Awaiting payment";
+      updateStatus();
+    }
 
-render();
-update();
-</script>
+    function renderSessions() {
+      sessionGrid.innerHTML = "";
+      sessions.forEach(session => {
+        const btn = document.createElement("button");
+        btn.className = "session-card" + (session.minutes === selectedSession.minutes ? " active" : "");
+        btn.innerHTML = `
+          <div class="mins">${session.minutes} min</div>
+          <div class="title">${session.label}</div>
+          <div class="desc">${session.description}</div>
+          <div class="tag">Select session</div>
+        `;
+        btn.addEventListener("click", () => {
+          if (podBusy) return;
+          selectedSession = session;
+          paid = false;
+          remainingSeconds = session.minutes * 60;
+          clearInterval(timer);
+          timer = null;
+          renderSessions();
+          updateUI();
+        });
+        sessionGrid.appendChild(btn);
+      });
+    }
 
+    document.querySelectorAll(".pay-option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".pay-option").forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        selectedPayment = btn.dataset.payment;
+        updateUI();
+      });
+    });
+
+    document.getElementById("goToSessionsBtn").addEventListener("click", () => {
+      document.getElementById("sessionsSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("goToCheckoutBtn").addEventListener("click", () => {
+      document.getElementById("checkoutSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("reviewBtn").addEventListener("click", () => {
+      document.getElementById("timerSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("payBtn").addEventListener("click", () => {
+      if (podBusy) {
+        alert("This pod is currently occupied.");
+        return;
+      }
+      paid = true;
+      podBusy = true;
+      remainingSeconds = selectedSession.minutes * 60;
+      updateUI();
+      document.getElementById("timerSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      if (!paid || timer) return;
+      receiptTimer.textContent = "Running";
+      timer = setInterval(() => {
+        if (remainingSeconds > 0) {
+          remainingSeconds--;
+          timerDisplay.textContent = formatTime(remainingSeconds);
+        } else {
+          clearInterval(timer);
+          timer = null;
+          paid = false;
+          podBusy = false;
+          timerSession.textContent = "Session complete";
+          timerNote.textContent = "Your session has ended. The pod is now being prepared for the next guest.";
+          receiptTimer.textContent = "Complete";
+          updateStatus();
+        }
+      }, 1000);
+    });
+
+    document.getElementById("pauseBtn").addEventListener("click", () => {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+      receiptTimer.textContent = "Paused";
+    });
+
+    document.getElementById("endBtn").addEventListener("click", () => {
+      clearInterval(timer);
+      timer = null;
+      paid = false;
+      podBusy = false;
+      remainingSeconds = selectedSession.minutes * 60;
+      updateUI();
+    });
+
+    renderSessions();
+    updateUI();
+  </script>
 </body>
 </html>
